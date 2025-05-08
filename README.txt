@@ -1,6 +1,6 @@
 Developed by https://www.github.com/Chimkins
 
-Only thing of note is .feesh files are just json files with different extension
+Only thing of note is .feesh files are just json files with a different extension
 
 Program does crash 1st time you boot it, just boot again and it should work fine.
 
