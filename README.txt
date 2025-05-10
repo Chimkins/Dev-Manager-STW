@@ -19,3 +19,5 @@ Ignore the crash and restart the program (no i wont fix this)
 Click the buttons to edit the files. Don't select more than 1 dev option or more than 1 airstike option
 
 Enjoy :D
+
+V1.1 - Changed used hex stings and had to remove "Dev Stairs" Button as string no longer existed in files
