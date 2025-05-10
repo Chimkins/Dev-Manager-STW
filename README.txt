@@ -20,4 +20,4 @@ Click the buttons to edit the files. Don't select more than 1 dev option or more
 
 Enjoy :D
 
-V1.1 - Changed used hex stings and had to remove "Dev Stairs" Button as string no longer existed in files
+V1.1 - Changed used hex stings and had to remove "Dev Stairs" Button as the edited string no longer existed in files
