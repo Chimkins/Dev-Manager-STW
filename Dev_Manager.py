@@ -2,7 +2,6 @@ import tkinter as tk
 from resource_path import resource_path
 from tkinter import filedialog
 import os
-import sys
 import json
 import mmap
 
@@ -65,17 +64,11 @@ def update_offsets():
     pak20 = os.path.join(directory, 'pakchunk20-WindowsClient.ucas')
 
     airstrike_hex = ["9A 99 19 3F 9A 99 99 3D"]
-    dev_hex = ["43 4E 6F 6E 65 53 69 7A 36 53 74 61 69 63 4D 73 68 43 6F 6D 70 6F 6E 65 6E 74 30 50 42 57 41 5F 57 31 5F 5F 50 53 43 53"]
-    dev_pillar_hex = ["44 6F 6F 72 53 5F 43 5F 5F 53 43 53 5F 4E 6F 64 65 53 69 6D 70 6C 65 43 6F 6E 73 74 72 75 63 53 63 72 69 70 74 41 63 74 6F 72 73 2F 2F 2F 4C 31 2F 07 34 7D ED FD 68 A8 D5 E3 E2 4D 55 68 C8 13 F2 E3 50 A6"]
-    dev_wood_hex = ["44 6F 6F 72 43 5F 43 5F 5F 53 43 53 5F 4E 6F 64 65 53 69 6D 70 6C 65 43 6F 6E 73 74 72 75 63 53 63 72 69 70 74 41 63 74 6F 72 73"]
+    dev_pillar_hex = ["50 42 57 41 5F 4D 31 5F 41 72 63 68 77 61 79"]
+    dev_wood_hex = ["50 42 57 41 5F 57 31 5F 41 72 63 68 77 61 79"]
 
 
     results = {}
-
-    results_pak20 = find_hex_in_file(pak20, dev_hex)
-    for hex_value, position in results_pak20.items():
-        if position is not None:
-                results["dev_offset"] = hex(position)[2:].upper()
     
     results_pak20_2 = find_hex_in_file(pak20, airstrike_hex)
     for hex_value, position in results_pak20_2.items():
@@ -137,31 +130,15 @@ def write_bytes_to_offset(file_path, offset_hex, values):
         file.write(bytes(values))
 
 def enable_pillar_devs(pak20):
-    pillar_devs_sequence = [0x00, 0x00]
+    pillar_devs_sequence = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
     write_bytes_to_offset(pak20, dev_pillar_offset, pillar_devs_sequence)
     print("Enabled Pillar Devs")
     
 
 def disable_pillar_devs(pak20):
-    pillar_devs_sequence = [0x44, 0x6F]
+    pillar_devs_sequence = [0x50, 0x42, 0x57, 0x41, 0x5F, 0x4D, 0x31, 0x5F, 0x41, 0x72, 0x63, 0x68, 0x77, 0x61, 0x79]
     write_bytes_to_offset(pak20, dev_pillar_offset, pillar_devs_sequence)
     print("Disabled Pillar Devs")
-    
-
-def enable_dev(pak20):
-    dev_sequence = [0x61] * 40
-    write_bytes_to_offset(pak20, dev_offset, dev_sequence)
-    print("Enabled Dev Stairs")
-    
-
-def disable_dev(pak20):
-    disable_sequence = [
-        0x43, 0x4E, 0x6F, 0x6E, 0x65, 0x53, 0x69, 0x7A, 0x36, 0x53, 0x74, 0x61, 0x69, 0x63, 0x4D, 0x73,
-        0x68, 0x43, 0x6F, 0x6D, 0x70, 0x6F, 0x6E, 0x65, 0x6E, 0x74, 0x30, 0x50, 0x42, 0x57, 0x41, 0x5F,
-        0x57, 0x31, 0x5F, 0x5F, 0x50, 0x53, 0x43, 0x53
-    ]
-    write_bytes_to_offset(pak20, dev_offset, disable_sequence)
-    print("Disabled Dev Stairs")
 
 def enable_airStrike_140s(pak20):
     airStrike_sequence = [0x00, 0x00, 0x0C, 0x43]
@@ -196,12 +173,12 @@ def disable_seizure(pak20):
     print("Disabled Seizure Air Strike")
 
 def enable_wood_devs(pak20):
-    sequence = [0x00, 0x00]
+    sequence = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
     write_bytes_to_offset(pak20, dev_wood_offset, sequence)
     print("Enabled Wood Devs")
 
 def disable_wood_devs(pak20):
-    sequence = [0x44, 0x6F]
+    sequence = [0x50, 0x42, 0x57, 0x41, 0x5F, 0x57, 0x31, 0x5F, 0x41, 0x72, 0x63, 0x68, 0x77, 0x61, 0x79]
     write_bytes_to_offset(pak20, dev_wood_offset, sequence)
     print("Disabled Wood Devs")
 
@@ -225,17 +202,6 @@ def toggle_pillar():
         pillar_button.config(text='Dev Pillars ✔️', bg=button_on_color)
         enable_pillar_devs(pak20)
         pillars = True
-    
-def toggle_stair():
-    global stairs
-    if stairs == True:
-        stair_button.config(text='Dev Stairs ❌', bg=button_off_color)
-        disable_dev(pak20)
-        stairs = False
-    else:
-        stair_button.config(text='Dev Stairs ✔️', bg=button_on_color)
-        enable_dev(pak20)
-        stairs = True
 
 def toggle_airStrike_140s():
     global airStrike_140s
@@ -283,7 +249,6 @@ def reset_paks():
     toggle_airstrike_60s()
     toggle_pillar()
     toggle_seizure()
-    toggle_stair()
     toggle_wood_devs()
     print("Reset modified pakchunks")
 
@@ -327,8 +292,6 @@ bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 pillar_button = tk.Button(root, text="Dev Pillars ❌", bg=button_off_color, fg=text_color, width=12, command=toggle_pillar)
 pillar_button.place(x=40, y=230)
-stair_button = tk.Button(root, text="Dev Stairs ❌", bg=button_off_color, fg=text_color, width=12, command=toggle_stair)
-stair_button.place(x=40, y=260)
 airStrike_140s_button = tk.Button(root, text="AirStrike 140s ❌", bg=button_off_color, fg=text_color, width=12, command=toggle_airStrike_140s)
 airStrike_140s_button.place(x=590, y=230)
 airstrike_60s_button = tk.Button(root, text="AirStrike 60s ❌", bg=button_off_color, fg=text_color, width=12, command=toggle_airstrike_60s)
