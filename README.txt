@@ -12,7 +12,7 @@ Triage Report - https://tria.ge/250508-yqlv1san4w/behavioral1
 
 !HOW TO USE!
 
-Start the program and select your pakchunks folder (default location is C:/program files/epic games/fortnite/fortnitegame/content/paks)
+Start the program and select your pakchunks folder (default location is "C:/Program Files/Epic Games/Fortnite/FortniteGame/Content/Paks")
 
 Ignore the crash and restart the program (no i wont fix this)
 
